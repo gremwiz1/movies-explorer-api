@@ -31,7 +31,7 @@ module.exports.updateUser = (req, res, next) => {
       if (err.message === "NotValidIdUser") {
         next(new NotFoundError("Нет пользователя с таким id"));
       } else if (err.name === "ValidationError") {
-        next(new BadRequestError(`Переданы не корректные данные: ${err}`));
+        next(new BadRequestError("Переданы не корректные данные"));
       } else {
         next(err);
       }
@@ -59,7 +59,7 @@ module.exports.createUser = (req, res, next) => {
         })
         .catch((err) => {
           if (err.name === "ValidationError") {
-            next(new BadRequestError(`Переданы не корректные данные: ${err}`));
+            next(new BadRequestError("Переданы не корректные данные"));
           } else {
             next(err);
           }

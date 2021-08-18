@@ -31,7 +31,7 @@ module.exports.createMovie = (req, res, next) => {
     .then((movie) => res.status(200).send(movie))
     .catch((err) => {
       if (err.name === "ValidationError") {
-        next(new BadRequestError(`Переданы не корректные данные: ${err}`));
+        next(new BadRequestError("Переданы не корректные данные"));
       } else {
         next(err);
       }
@@ -53,7 +53,7 @@ module.exports.deleteMovie = (req, res, next) => {
       } else if (err.message === "YouNotOwnerMovie") {
         next(new ForbiddenError("Вы не можете удалить фильм, так как вы не его собственник"));
       } else if (err.name === "CastError") {
-        next(new BadRequestError(`Переданы не корректные данные: ${err}`));
+        next(new BadRequestError("Переданы не корректные данные"));
       } else {
         next(err);
       }
