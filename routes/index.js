@@ -1,6 +1,10 @@
 const router = require("express").Router();
 const { celebrate, Joi } = require("celebrate");
 const { login, createUser } = require("../controllers/users");
+const usersRouter = require("./users");
+const moviesRouter = require("./movies");
+const errorsRouter = require("./errors");
+const auth = require("../middlewares/auth");
 
 router.post("/signin", celebrate({
   body: Joi.object().keys({
@@ -15,4 +19,8 @@ router.post("/signup", celebrate({
     name: Joi.string().min(2).max(30),
   }),
 }), createUser);
+router.use(auth);
+router.use("/", usersRouter);
+router.use("/", moviesRouter);
+router.use("*", errorsRouter);
 module.exports = router;

@@ -5,11 +5,7 @@ const { errors } = require("celebrate");
 const limiter = require("./middlewares/limiter");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 const errorsMiddlewares = require("./middlewares/errors");
-const usersRouter = require("./routes/users");
-const moviesRouter = require("./routes/movies");
-const errorsRouter = require("./routes/errors");
-const auth = require("./middlewares/auth");
-const authorizationRouter = require("./routes/index");
+const allRouters = require("./routes/index");
 
 const { DB_CONNECTION_STRING, NODE_ENV } = process.env;
 const { PORT = 3000 } = process.env;
@@ -48,11 +44,7 @@ app.use((req, res, next) => {
   }
   return next();
 });
-app.use("/", authorizationRouter);
-app.use(auth);
-app.use("/", usersRouter);
-app.use("/", moviesRouter);
-app.use("*", errorsRouter);
+app.use("/", allRouters);
 app.use(errorLogger); // подключаем логгер ошибок
 app.use(errors()); // обработчик ошибок celebrate
 app.use(errorsMiddlewares);
