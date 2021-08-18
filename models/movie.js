@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { isURL } = require("validator");
+const ANSWER = require("../utils/answers");
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -27,7 +28,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => isURL(v),
-      message: "Поле image не является ссылкой",
+      message: ANSWER.ImageNotUrl,
     },
   },
   trailer: {
@@ -35,7 +36,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => isURL(v),
-      message: "Поле trailer не является ссылкой",
+      message: ANSWER.TrailerNotUrl,
     },
   },
   thumbnail: {
@@ -43,7 +44,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => isURL(v),
-      message: "Поле thumbnail не является ссылкой",
+      message: ANSWER.ThumbnailNotUrl,
     },
   },
   owner: {

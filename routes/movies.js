@@ -1,13 +1,14 @@
 const router = require("express").Router();
 const { celebrate, Joi } = require("celebrate");
 const { isURL } = require("validator");
+const ANSWER = require("../utils/answers");
 
 const method = (value) => {
   const result = isURL(value);
   if (result) {
     return value;
   }
-  throw new Error("URL validation err");
+  throw new Error(ANSWER.NotCorrectUrl);
 };
 const {
   getMovies, createMovie, deleteMovie,

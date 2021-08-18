@@ -5,6 +5,7 @@ const BadRequestError = require("../errors/bad-request-err");
 const NotFoundError = require("../errors/not-found-err");
 const ConflictError = require("../errors/conflict-err");
 const UnauthorizedError = require("../errors/unauthorized-err");
+const ANSWER = require("../utils/answers");
 
 module.exports.getInfoAboutMe = (req, res, next) => {
   User.findById(req.user._id)
@@ -13,7 +14,7 @@ module.exports.getInfoAboutMe = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === "CastError") {
-        next(new BadRequestError("Некорректный id пользователя"));
+        next(new BadRequestError(ANSWER.BadRequestUser));
       } else {
         next(err);
       }
@@ -29,9 +30,9 @@ module.exports.updateUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.message === "NotValidIdUser") {
-        next(new NotFoundError("Нет пользователя с таким id"));
+        next(new NotFoundError(ANSWER.UserNotFound));
       } else if (err.name === "ValidationError") {
-        next(new BadRequestError("Переданы не корректные данные"));
+        next(new BadRequestError(ANSWER.BadRequest));
       } else {
         next(err);
       }
@@ -44,7 +45,7 @@ module.exports.createUser = (req, res, next) => {
   User.findOne({ email })
     .then((customer) => {
       if (customer) {
-        throw new ConflictError("Пользователь с таким email уже существует в базе");
+        throw new ConflictError(ANSWER.UserEmailExist);
       }
       return bcrypt.hash(password, 10)
         .then((hash) => User.create({
@@ -59,7 +60,7 @@ module.exports.createUser = (req, res, next) => {
         })
         .catch((err) => {
           if (err.name === "ValidationError") {
-            next(new BadRequestError("Переданы не корректные данные"));
+            next(new BadRequestError(ANSWER.BadRequest));
           } else {
             next(err);
           }
@@ -80,7 +81,7 @@ module.exports.login = (req, res, next) => {
     })
     .catch((err) => {
       if (err.message === "IncorrectEmailOrPassword") {
-        next(new UnauthorizedError("Неправильная почта или пароль"));
+        next(new UnauthorizedError(ANSWER.WrongEmailOrPassword));
       } else {
         next(err);
       }
