@@ -12,8 +12,8 @@ const { DB_CONNECTION_STRING, NODE_ENV } = process.env;
 const { PORT = 3000 } = process.env;
 const allowedCors = [
   "localhost:3000",
-  "https://diplom-yandex-practicum.site",
-  "http://diplom-yandex-practicum.site",
+  "https://backend-diplom-yandex-practicum.site",
+  "http://backend-diplom-yandex-practicum.site",
   "https://praktikum.tk",
   "http://praktikum.tk",
 ];
